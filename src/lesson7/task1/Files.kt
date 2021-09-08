@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.Integer.*
 
 /**
  * Пример
@@ -53,7 +54,25 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val HowMuchLineinFile = mutableMapOf<String, Int>()
+    for (str in substrings){
+        HowMuchLineinFile.put(str , 0)
+    }
+    for (line in File(inputName).readLines()) {
+        for ((str, much) in HowMuchLineinFile) {
+                    var count = 0
+                    var index: Int = line.toLowerCase().indexOf(str.toLowerCase())
+                    while (index >= 0) {
+                        count++
+                        index = line.toLowerCase().indexOf(str.toLowerCase(), index + 1)
+                    }
+
+                 HowMuchLineinFile.put(str, much + count)
+             }
+    }
+    return HowMuchLineinFile
+}
 
 
 /**
@@ -68,9 +87,21 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
+ * жИ шИ ЖИ Ши ЖА шА Жа ша жу шу жу щу ча шу щу ща жа жи жи жу чу ча
+ * жЫ шЫ ЖИ Ши ЖЯ шЯ Жа ша жу шу жю щю чя шю щю щя жя жи жы жю чю чя
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+TODO()
+//    inputName.replace(Regex("[жЫ шЫ ЖИ Ши ЖЯ шЯ Жа ша жу шу жю щю чя шю щю щя жя жи жы жю чю чя]")) {
+//        when (it.value) {
+//            "a" -> "4"
+//            "e" -> "3"
+//            "i" -> "1"
+//            "o" -> "0"
+//            "u" -> "|_|"
+//            else -> it.value
+//        }
+//    }
 }
 
 /**
@@ -91,7 +122,28 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var max = MIN_VALUE
+
+    for (line in File(inputName).readLines()) {
+        if (line.trim().length > max) {
+            max = line.trim().length
+        }
+    }
+
+    val out = File(outputName).bufferedWriter()
+
+    for (line in File(inputName).readLines()) {
+        var temp = (max - line.trim().length) / 2
+
+        while (temp > 0) {
+            out.write(" ")
+            temp--
+        }
+
+        out.write(line.trim())
+        out.newLine()
+    }
+    out.close()
 }
 
 /**
@@ -426,7 +478,5 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
-fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
-}
+fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String): Unit = TODO()
 
